@@ -12,15 +12,17 @@ import { Eye } from "tabler-icons-react";
 const useStyles = createStyles((theme) => ({
   container: {
     width: 800,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: theme.colorScheme === 'light' ? theme.colors.gray[4] : theme.colors.dark[5]
   },
   menus: {
-    width: "100%",
+    width: "fill-available",
     borderRadius: "4px 4px 0 0"
   },
   editor: {
     width: "100%",
     borderRadius: "0 0 4px 4px",
-    padding: "4px",
     border: "none"
   },
 }));
