@@ -7,7 +7,10 @@ import {
 } from "@mantine/core";
 import RichTextEditor from "@mantine/rte";
 import { useMemo, useState } from "react";
-import { Eye } from "tabler-icons-react";
+import {FaPoll} from "react-icons/fa";
+import {BsDropletHalf} from "react-icons/bs";
+import {MdQuestionAnswer, MdEmojiPeople} from "react-icons/md";
+import axios from 'axios';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -45,14 +48,16 @@ function EditorCollection() {
     () => ({
       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
       mentionDenotationChars: ["@"],
-      source: (
+      source: async(
         searchTerm: string,
         renderList: (arg0: { id: number; value: string }[]) => void
       ) => {
-        const includesSearchTerm = people.filter((item) =>
-          item.value.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        renderList(includesSearchTerm);
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/users");
+          const result = response.data.map((item: { id: number; name: string; }) => {
+            return {id: item.id, value: item.name}
+          })
+          renderList(result)
       },
     }),
     []
@@ -68,7 +73,7 @@ function EditorCollection() {
           {
             label: (
               <Center py={5}>
-                <Eye size={16} />
+                <MdEmojiPeople />
                 <Box ml={10}>Discussion</Box>
               </Center>
             ),
@@ -77,7 +82,7 @@ function EditorCollection() {
           {
             label: (
               <Center py={5}>
-                <Eye size={16} />
+                <MdQuestionAnswer/>
                 <Box ml={10}>AMA</Box>
               </Center>
             ),
@@ -86,7 +91,7 @@ function EditorCollection() {
           {
             label: (
               <Center py={5}>
-                <Eye size={16} />
+                <FaPoll />
                 <Box ml={10}>Poll</Box>
               </Center>
             ),
@@ -95,7 +100,7 @@ function EditorCollection() {
           {
             label: (
               <Center py={5}>
-                <Eye size={16} />
+                <BsDropletHalf />
                 <Box ml={10}>Drop</Box>
               </Center>
             ),
